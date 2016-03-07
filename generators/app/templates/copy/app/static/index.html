@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>sequence diagram</title>
+</head>
+<body>
+
+  <main id="main"></main>
+
+  <script src="./lib/jquery-2.2.1.min.js"></script>
+  <script src="./lib/raphael.min.js"></script>
+  <script src="./lib/underscore-min.js"></script>
+  <script src="./lib/sequence-diagram-min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    $(function () {
+      var $main = $('#main');
+
+      var socket = io();
+      socket.on('content', draw);
+
+      function draw (content) {
+        try {
+          $main.empty();
+          Diagram.parse(content).drawSVG('main', {
+            theme: 'simple'
+          });
+        } catch (err) {
+          $main.text(err);
+        }
+      };
+    });
+  </script>
+
+</body>
+</html>
